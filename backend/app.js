@@ -4,10 +4,18 @@ import cors from 'cors'
 import 'dotenv/config'
 import logger from './logger.js'
 import connectDB from './config/mongoDBConnection.js'
+import userRouter from "./route/userRoute.js"
+
 // app config
-const app = express()
 const port = process.env.PORT || 4000
+const app = express()
+app.use(cors())
+app.use(express.json());
 await connectDB();
+
+// api endpoints
+app.use("/api/user", userRouter)
+
 app.get("/", (req, res) => {
     logger.info('GET / - API Working');  // Log the request
     res.send("API Working");
